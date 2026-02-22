@@ -9,7 +9,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-
+dot-travel-animation
 # testing
 /coverage
 
