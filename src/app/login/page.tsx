@@ -2,7 +2,28 @@
 import { Box, Flex, VStack, Heading, Text, Input, Button, Link, Stack, Center } from "@chakra-ui/react";
 import AnimatedCanvas from "@/src/components/ui/dot-travel-animation/dot-travel-animation";
 import { ArrowRight } from "lucide-react"
+import {useForm , Controller , SubmitHandler} from "react-hook-form"
+
+// Define the shape of your data
+type LoginFormValues = {
+  username: string;
+  password: string;
+};
+
 const page = () => {
+
+  // Inside the component:
+const {
+  control,           // Controls the inputs
+  handleSubmit,      // The "Bodyguard" function
+  formState: { errors, isSubmitting }, // The status report
+} = useForm<LoginFormValues>({
+  defaultValues: { username: "", password: "" },
+});
+
+const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
+  console.log(data); // data.username and data.password are now available here
+};
   
   return (
     <Center bg="brand.login"  backgroundImage="linear-gradient(#e2e4df 1px, transparent 1px),
@@ -12,8 +33,8 @@ const page = () => {
 <Flex bg="brand.loginBox" h="80vh" borderRadius="xl"
   border="1px solid"
   borderColor="#e9ece6" // This exact color separates the box from the grid
- boxShadow="0 10px 30px -10px rgba(0, 0, 0, 0.05)" // Very soft, light shadow
-  overflow="hidden" rounded="md" direction={{ base: "column", md: "row" }} >
+ boxShadow="0 10px 30px -10px rgba(0, 0, 0, 0.3)" // Very soft, light shadow
+  overflow="hidden" rounded="lg" direction={{ base: "column", md: "row" }} >
       
       {/* LEFT: Visual Section */}
       <Box 
@@ -23,6 +44,7 @@ const page = () => {
         alignItems="center" 
         justifyContent="center"
         overflow="hidden"
+        
       >
         <Box position="absolute"  inset="0" zIndex="0">
           <AnimatedCanvas />
@@ -53,28 +75,58 @@ const page = () => {
             <Text color="fg.muted">Enter your credentials to access your account.</Text>
           </Box>
 
+<form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <Stack gap="5" w="full">
             {/* Input Group 1 */}
-            <Box w="full">
-              <Text textStyle="sm" fontWeight="medium" mb="2" color="fg.emphasized">
-                Email 
-              </Text>
-              <Input placeholder="you@example.com" size="lg" variant="outline" />
-            </Box>
+          <Controller
+  name="username"
+  control={control}
+  rules={{ required: "Username is required"}}
+  render={({ field }) => (
+    <Box w="full">
+      <Text textStyle="sm" fontWeight="medium" mb="2">Username</Text>
+      <Input 
+        {...field} // This handles value and onChange automatically
+        placeholder="Emily" 
+        maxLength={50}
+        aria-invalid={!!errors.username} // Highlights red if error exists
+      />
+      {errors.username && (
+        <Text color="red.500" fontSize="xs" mt="1">{errors.username.message}</Text>
+      )}
+    </Box>
+  )}
+/>
 
             {/* Input Group 2 */}
-            <Box w="full">
-              <Text textStyle="sm" fontWeight="medium" mb="2" color="fg.emphasized">
-                Password
-              </Text>
-              <Input type="password" placeholder="••••••••" size="lg" variant="outline" />
-            </Box>
+       <Controller
+  name="password"
+  control={control}
+  rules={{ 
+    required: "Password is required", 
+    minLength: { value: 6, message: "Min 6 characters" } 
+  }}
+  render={({ field }) => (
+    <Box w="full">
+      <Text textStyle="sm" fontWeight="medium" mb="2">Password</Text>
+      <Input 
+        {...field} 
+        placeholder="*********"
+        type="password" 
+        aria-invalid={!!errors.password}
+      />
+      {errors.password && (
+        <Text color="red.500" fontSize="xs" mt="1">{errors.password.message}</Text>
+      )}
+    </Box>
+  )}
+/>
 
             <Flex justify="flex-end" w="full" textStyle="sm">
               <Link color="brand.greenTeal"  href="#">Forgot password?</Link>
             </Flex>
 
-            <Button bg="brand.yellowBtn"  size="xl" fontWeight="semibold" fontSize="md" w="full"
+            <Button type="submit" loading={isSubmitting} bg="brand.yellowBtn"  size="xl" fontWeight="semibold" fontSize="md" w="full"
             rounded="md"
             position="relative"
       overflow="hidden" // Essential to hide the white shine when it's "outside"
@@ -114,7 +166,7 @@ const page = () => {
 
            
           </Stack>
-
+</form>
           <Text textStyle="sm" color="fg.muted" w="full" textAlign="center">
             Don't have an account? <Link color="blue.600" fontWeight="bold" href="#">Sign up</Link>
           </Text>
