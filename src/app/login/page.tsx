@@ -1,8 +1,9 @@
 "use client";
 import { Box, Flex, VStack, Heading, Text, Input, Button, Link, Stack, Center } from "@chakra-ui/react";
 import AnimatedCanvas from "@/src/components/ui/dot-travel-animation/dot-travel-animation";
-import { ArrowRight } from "lucide-react"
+import { ArrowRight,Eye , EyeOff } from "lucide-react"
 import {useForm , Controller , SubmitHandler} from "react-hook-form"
+import { useState } from "react";
 
 // Define the shape of your data
 type LoginFormValues = {
@@ -11,7 +12,7 @@ type LoginFormValues = {
 };
 
 const page = () => {
-
+const [showPassword, setShowPassword] = useState(false);
   // Inside the component:
 const {
   control,           // Controls the inputs
@@ -107,17 +108,21 @@ const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     minLength: { value: 6, message: "Min 6 characters" } 
   }}
   render={({ field }) => (
-    <Box w="full">
+    <Box w="full" position="relative">
       <Text textStyle="sm" fontWeight="medium" mb="2">Password</Text>
       <Input 
         {...field} 
         placeholder="*********"
-        type="password" 
+        type={showPassword ? "text" : "password"} 
         aria-invalid={!!errors.password}
       />
       {errors.password && (
         <Text color="red.500" fontSize="xs" mt="1">{errors.password.message}</Text>
       )}
+      <Box onClick={() => setShowPassword(!showPassword)} position="absolute" left="90%" top="55%">
+       {showPassword?<EyeOff size={20}/>:<Eye size={20}/>} 
+      </Box>
+      
     </Box>
   )}
 />
