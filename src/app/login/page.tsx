@@ -72,10 +72,10 @@ const page = () => {
             </Box>
 
             <Flex justify="flex-end" w="full" textStyle="sm">
-              <Link color="brand.accent"  href="#">Forgot password?</Link>
+              <Link color="brand.greenTeal"  href="#">Forgot password?</Link>
             </Flex>
 
-            <Button colorPalette="blue" size="xl" fontSize="md" w="full">
+            <Button bg="brand.yellowBtn" size="xl" fontSize="md" w="full">
               Sign In
             </Button>
 
