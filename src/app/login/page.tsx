@@ -1,7 +1,7 @@
 "use client";
 import { Box, Flex, VStack, Heading, Text, Input, Button, Link, Stack, Center } from "@chakra-ui/react";
 import AnimatedCanvas from "@/src/components/ui/dot-travel-animation/dot-travel-animation";
-
+import { ArrowRight } from "lucide-react"
 const page = () => {
   
   return (
@@ -29,7 +29,7 @@ const page = () => {
         </Box>
 
         <VStack zIndex="1" gap="4" px="12" textAlign="center">
-          <Heading size="2xl" fontWeight="bold" letterSpacing="tight">
+          <Heading size="3xl" fontWeight="bold" letterSpacing="tight">
             <Text as="span" color="blue.500">E</Text>commerce
           </Heading>
           <Text opacity="0.6" fontSize="sm" maxW="md">
@@ -49,7 +49,7 @@ const page = () => {
       >
         <VStack gap="10" w="full" maxW="md" align="start">
           <Box>
-            <Heading size="3xl" mb="2">Welcome back</Heading>
+            <Heading size="3xl" mb="2" fontWeight="bold">Welcome back</Heading>
             <Text color="fg.muted">Enter your credentials to access your account.</Text>
           </Box>
 
@@ -74,8 +74,42 @@ const page = () => {
               <Link color="brand.greenTeal"  href="#">Forgot password?</Link>
             </Flex>
 
-            <Button bg="brand.yellowBtn" size="xl" fontSize="md" w="full">
+            <Button bg="brand.yellowBtn"  size="xl" fontWeight="semibold" fontSize="md" w="full"
+            rounded="md"
+            position="relative"
+      overflow="hidden" // Essential to hide the white shine when it's "outside"
+      transition="all 0.4s ease"
+     
+      // 2. The White Shine Effect
+      _before={{
+        content: '""',
+        position: "absolute",
+        top: 0,
+        left: "-100%",
+        width: "50%",
+        height: "100%",
+        background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent)",
+        transform: "skewX(-25deg)", // Slants the white bar
+        transition: "none"
+       
+      }}
+      // Move the shine on hover
+      _hover={{
+        //color change
+        bg: "#e5ad06",
+        // move to top
+        transform: "translateY(-4px)",
+    //  Add a shadow to emphasize the lift
+    boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)",
+        _before: {
+          //shines move left to right
+          left: "120%",
+          transition: "left 0.6s ease-in-out 0.3s",
+        },
+      }}
+            >
               Sign In
+              <ArrowRight/>
             </Button>
 
            
