@@ -12,7 +12,9 @@ const customConfig = defineConfig({
           primary: { value: "#ffc107" },   // The yellow button
           accent: { value: "#00a78e" },    // The teal link
           dark: { value: "#1a1a1a" },      // Deep text/headings
-          login : {value:"#f9f8f3"}
+          login : {value:"#f9f8f3"},
+          loginBox: {value : "#fafaf3"}
+          
         },
       },
     },
