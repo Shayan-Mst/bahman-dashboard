@@ -24,17 +24,16 @@ const page = () => {
         justifyContent="center"
         overflow="hidden"
       >
-        <Box position="absolute" inset="0" zIndex="0">
+        <Box position="absolute"  inset="0" zIndex="0">
           <AnimatedCanvas />
         </Box>
 
-        <VStack zIndex="1" gap="6" px="12" textAlign="center">
+        <VStack zIndex="1" gap="4" px="12" textAlign="center">
           <Heading size="2xl" fontWeight="bold" letterSpacing="tight">
-            Design your <Text as="span" color="blue.500">Future</Text>
+            <Text as="span" color="blue.500">E</Text>commerce
           </Heading>
-          <Text  fontSize="md" maxW="md">
-            The next generation of AI-driven recruitment platforms. 
-            Connect, prepare, and succeed.
+          <Text opacity="0.6" fontSize="sm" maxW="md">
+           Sign in to access your personal styling platform and curate your next signature look.
           </Text>
         </VStack>
       </Box>
