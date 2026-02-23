@@ -8,7 +8,7 @@ const customConfig = defineConfig({
         brand: {
           canvas: { value: "#f8f9f7" },    // Global background
           grid: { value: "#e2e4df" },      // Grid lines
-          surface: { value: "#ffffff" },   // Card background
+          dashboard: { value: "#ffffff" },   // Card background
           yellowBtn: { value: "#ffc107" },   // The yellow button
           greenTeal: { value: "#00a78e" },    // The teal link
           dark: { value: "#1a1a1a" },      // Deep text/headings
