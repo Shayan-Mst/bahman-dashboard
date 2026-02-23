@@ -1,5 +1,5 @@
 "use client";
-import { Box, VStack, Icon, Text, Image, Flex } from "@chakra-ui/react";
+import { Box, VStack, Icon, Text } from "@chakra-ui/react";
 import { LayoutDashboard, Users, Package, Plus } from "lucide-react";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
@@ -87,10 +87,10 @@ export const Sidebar = () => {
 
         {/* Bottom Section (Popovers) */}
         <VStack gap="2" w="full" px="2" mt="auto">
-          {/* Account Popover instead of a Link/Dialog */}
+          {/* Account Popover */}
           <AccountPopover />
           
-          {/* Support Popover instead of a Link/Dialog */}
+          {/* Support Popover */}
           <SupportPopover />
         </VStack>
       </VStack>

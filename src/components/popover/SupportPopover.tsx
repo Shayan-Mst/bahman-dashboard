@@ -1,5 +1,5 @@
 "use client";
-import { VStack, Text, Icon, Button, Input, Textarea, Field, Stack } from "@chakra-ui/react";
+import { VStack, Icon, Button, Input, Textarea, Field, Stack } from "@chakra-ui/react";
 import { HelpCircle, Send } from "lucide-react";
 import { 
   PopoverRoot, PopoverTrigger, PopoverContent, 
@@ -12,12 +12,15 @@ export const SupportPopover = () => {
       positioning={{ placement: "right-start", gutter: 20 }} // Increased gutter to clear the sidebar
      
     >
+           
       <PopoverTrigger asChild>
         <VStack p="3" borderRadius="md" cursor="pointer" color="gray.500" _hover={{ bg: "gray.50" }}>
           <Icon as={HelpCircle} boxSize="5" />
-          <Text fontSize="10px">Support</Text>
+          
         </VStack>
+      
       </PopoverTrigger>
+        
       <PopoverPositioner>
       <PopoverContent bg="brand.dashboard" w="320px" borderRadius="xl" shadow="2xl" zIndex="popover">
         
