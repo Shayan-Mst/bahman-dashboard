@@ -1,30 +1,12 @@
-"use client";
-import { Box, Flex, VStack, Heading, Text, Input, Button, Link, Stack, Center } from "@chakra-ui/react";
-import AnimatedCanvas from "@/src/components/ui/dot-travel-animation/dot-travel-animation";
-import { ArrowRight,Eye , EyeOff } from "lucide-react"
-import {useForm , Controller , SubmitHandler} from "react-hook-form"
-import { useState } from "react";
 
-// Define the shape of your data
-type LoginFormValues = {
-  username: string;
-  password: string;
-};
+import { Box, Flex, VStack, Heading, Text, Link, Center } from "@chakra-ui/react";
+import AnimatedCanvas from "@/src/components/ui/dot-travel-animation/dot-travel-animation";
+import LoginForm from "@/src/features/auth/component/LoginForm";
+
+
 
 const page = () => {
-const [showPassword, setShowPassword] = useState(false);
-  // Inside the component:
-const {
-  control,           // Controls the inputs
-  handleSubmit,      // The "Bodyguard" function
-  formState: { errors, isSubmitting }, // The status report
-} = useForm<LoginFormValues>({
-  defaultValues: { username: "", password: "" },
-});
 
-const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
-  console.log(data); // data.username and data.password are now available here
-};
   
   return (
     <Center bg="brand.login"  backgroundImage="linear-gradient(#e2e4df 1px, transparent 1px),
@@ -75,103 +57,9 @@ const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
             <Heading size="3xl" mb="2" fontWeight="bold">Welcome back</Heading>
             <Text color="fg.muted">Enter your credentials to access your account.</Text>
           </Box>
+               
+               <LoginForm/>
 
-<form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <Stack gap="5" w="full">
-            {/* Input Group 1 */}
-          <Controller
-  name="username"
-  control={control}
-  rules={{ required: "Username is required"}}
-  render={({ field }) => (
-    <Box w="full">
-      <Text textStyle="sm" fontWeight="medium" mb="2">Username</Text>
-      <Input 
-        {...field} // This handles value and onChange automatically
-        placeholder="Emily" 
-        maxLength={50}
-        aria-invalid={!!errors.username} // Highlights red if error exists
-      />
-      {errors.username && (
-        <Text color="red.500" fontSize="xs" mt="1">{errors.username.message}</Text>
-      )}
-    </Box>
-  )}
-/>
-
-            {/* Input Group 2 */}
-       <Controller
-  name="password"
-  control={control}
-  rules={{ 
-    required: "Password is required", 
-    minLength: { value: 6, message: "Min 6 characters" } 
-  }}
-  render={({ field }) => (
-    <Box w="full" position="relative">
-      <Text textStyle="sm" fontWeight="medium" mb="2">Password</Text>
-      <Input 
-        {...field} 
-        placeholder="*********"
-        type={showPassword ? "text" : "password"} 
-        aria-invalid={!!errors.password}
-      />
-      {errors.password && (
-        <Text color="red.500" fontSize="xs" mt="1">{errors.password.message}</Text>
-      )}
-      <Box onClick={() => setShowPassword(!showPassword)} position="absolute" left="90%" top="55%">
-       {showPassword?<EyeOff size={20}/>:<Eye size={20}/>} 
-      </Box>
-      
-    </Box>
-  )}
-/>
-
-            <Flex justify="flex-end" w="full" textStyle="sm">
-              <Link color="brand.greenTeal"  href="#">Forgot password?</Link>
-            </Flex>
-
-            <Button type="submit" loading={isSubmitting} bg="brand.yellowBtn"  size="xl" fontWeight="semibold" fontSize="md" w="full"
-            rounded="md"
-            position="relative"
-      overflow="hidden" // Essential to hide the white shine when it's "outside"
-      transition="all 0.4s ease"
-     
-      // 2. The White Shine Effect
-      _before={{
-        content: '""',
-        position: "absolute",
-        top: 0,
-        left: "-100%",
-        width: "50%",
-        height: "100%",
-        background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent)",
-        transform: "skewX(-25deg)", // Slants the white bar
-        transition: "none"
-       
-      }}
-      // Move the shine on hover
-      _hover={{
-        //color change
-        bg: "#e5ad06",
-        // move to top
-        transform: "translateY(-4px)",
-    //  Add a shadow to emphasize the lift
-    boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)",
-        _before: {
-          //shines move left to right
-          left: "120%",
-          transition: "left 0.6s ease-in-out 0.3s",
-        },
-      }}
-            >
-              Sign In
-              <ArrowRight/>
-            </Button>
-
-           
-          </Stack>
-</form>
           <Text textStyle="sm" color="fg.muted" w="full" textAlign="center">
             Don't have an account? <Link color="blue.600" fontWeight="bold" href="#">Sign up</Link>
           </Text>
