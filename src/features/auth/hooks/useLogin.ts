@@ -12,12 +12,16 @@ export const useLogin = () => {
     mutationFn: loginUser,
     onSuccess: (data) => {
       // 1. Save Token
-    Cookies.set('auth-token', data.accessToken, { 
+    Cookies.set('acc-tk', data.accessToken, { 
         expires: 7, // days
         secure: true, 
         sameSite: 'strict' 
       });
-      
+        Cookies.set('ref-tk', data.refreshToken, { 
+        expires: 7, // days
+        secure: true, 
+        sameSite: 'strict' 
+      });
       // 2. Show Success Toast
       toaster.create({
         title: "Login Successful",
