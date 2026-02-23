@@ -9,7 +9,7 @@ import { toaster } from "@/src/components/ui/toaster"
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const lastErrorRef = useRef<string>("");
+    
    // 2. Watch for errors and trigger Toasts
  
       // Inside the component:
@@ -27,14 +27,14 @@ const LoginForm = () => {
     const currentError = errorMessages[0]?.message as string;
     
     // Only toast if it's a new error message or if the user clicked submit again
-    if (currentError !== lastErrorRef.current || submitCount > 0) {
+    if (currentError || submitCount > 0) {
      const timer = setTimeout(() => {
         toaster.create({
           description: currentError,
           type: "error",
         });
       }, 0);
-      lastErrorRef.current = currentError;
+      
       return () => clearTimeout(timer); // Cleanup
     }
   }

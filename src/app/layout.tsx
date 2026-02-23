@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Provider } from "@/src/components/ui/provider"
 import { Toaster } from "@/src/components/ui/toaster";
+import ReactQueryProvider from "../components/providers/ReactQueryProvider";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,10 +31,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Provider>
+        <ReactQueryProvider>
+        <Provider>{/* Chakra-UI provider */}
           {children}
           <Toaster/>
         </Provider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
