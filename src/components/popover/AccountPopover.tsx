@@ -5,8 +5,10 @@ import {
   PopoverRoot, PopoverTrigger, PopoverContent, 
   PopoverBody ,PopoverPositioner
 } from "@chakra-ui/react";
+import { useLogout } from "@/src/features/auth/hooks/useLogout";
 
 export const AccountPopover = () => {
+    const { mutate: logout, isPending: isLoggingOut } = useLogout();
   return (
     <PopoverRoot 
       positioning={{ placement: "right-start", gutter: 20 }}
@@ -36,7 +38,7 @@ export const AccountPopover = () => {
             <Button outline="none" opacity="0.7" justifyContent="start" size="sm" _hover={{bg:"gray.100", color:"blue.600"}}>
               <Icon as={Settings} mr="2" /> Manage Account
             </Button>
-            <Button opacity="0.7"  justifyContent="start" size="sm" _hover={{bg:"red.100", color:"red.600"}}>
+            <Button onClick={()=>logout()} loading={isLoggingOut} opacity="0.7"  justifyContent="start" size="sm" _hover={{bg:"red.100", color:"red.600"}}>
               <Icon as={LogOut} mr="2" /> Sign Out
             </Button>
           </VStack>
