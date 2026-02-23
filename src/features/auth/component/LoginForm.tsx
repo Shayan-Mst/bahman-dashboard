@@ -2,9 +2,9 @@
 import { Box, Flex, Text, Input, Button, Link, Stack } from "@chakra-ui/react";
 import { ArrowRight,Eye , EyeOff } from "lucide-react"
 import {useForm , Controller , SubmitHandler} from "react-hook-form"
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { LoginFormValues } from "@/src/features/auth/types/auth.types";
-import { loginUser } from "../services/authApi";
+import { useLogin } from "../hooks/useLogin";
 import { toaster } from "@/src/components/ui/toaster"
 
 const LoginForm = () => {
@@ -12,7 +12,7 @@ const LoginForm = () => {
     
    // 2. Watch for errors and trigger Toasts
  
-      // Inside the component:
+      // React hook form
     const {
       control,           // Controls the inputs
       handleSubmit,      // The "Bodyguard" function
@@ -40,26 +40,31 @@ const LoginForm = () => {
   }
 }, [errors, submitCount]);
 
-  const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
-    
-    try {
-      const result = await loginUser(data);
-     
-        toaster.create({
-          description: "Login was successful",
-          type: "success",
-          closable: true,
-        })
-      // You would usually do: router.push('/dashboard') here
-    } catch (err: any) {
-      
-      toaster.create({
-          description: err.message,
-          type: "error",
-          closable: true,
-        })
-    }
+// All the logic is hidden inside this hook
+  const { mutate, isPending } = useLogin();
+  const onSubmit = (data: LoginFormValues) => {
+    mutate(data);
   };
+  // const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
+    
+  //   try {
+  //     const result = await loginUser(data);
+     
+  //       toaster.create({
+  //         description: "Login was successful",
+  //         type: "success",
+  //         closable: true,
+  //       })
+  //     // You would usually do: router.push('/dashboard') here
+  //   } catch (err: any) {
+      
+  //     toaster.create({
+  //         description: err.message,
+  //         type: "error",
+  //         closable: true,
+  //       })
+  //   }
+  // };
   return (
     <>
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
