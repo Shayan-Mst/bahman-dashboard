@@ -13,13 +13,14 @@ export const useLogin = () => {
     onSuccess: (data) => {
       // 1. Save Token
     var inThirty = new Date(new Date().getTime() + 30 * 60 * 1000);
+    var inSixty = new Date(new Date().getTime() + 60 * 60 * 1000);
     Cookies.set('acc-tk', data.accessToken, { 
         expires: inThirty, // 30 mins
         secure: true, 
         sameSite: 'strict' 
       });
         Cookies.set('ref-tk', data.refreshToken, { 
-        expires: 7, // days
+        expires: inSixty, // days
         secure: true, 
         sameSite: 'strict' 
       });
