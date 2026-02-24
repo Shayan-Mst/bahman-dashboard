@@ -1,26 +1,45 @@
-import { Table, Badge, Avatar, IconButton, Text, Box, HStack, Icon } from "@chakra-ui/react";
+import { Table, Badge, Avatar, IconButton, Text, Box, HStack, Icon, Center, VStack, Spinner, Button } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { Pencil, Trash2, ShieldCheck } from "lucide-react";
 import { toaster } from "../ui/toaster";
+import { useGetAllUser } from "@/src/features/auth/hooks/useGetAllUser";
 
 const USERS = [
   { id: 1, name: "Arthur Morgan", email: "arthur@van-der-linde.com", role: "Admin", status: "Active", img: "https://i.pravatar.cc/150?u=1" },
   { id: 2, name: "Sadie Adler", email: "sadie@bounty-hunt.com", role: "Editor", status: "Active", img: "https://i.pravatar.cc/150?u=2" },
   { id: 3, name: "John Marston", email: "john@beechers-hope.com", role: "User", status: "Inactive", img: "https://i.pravatar.cc/150?u=3" },
 ];
-// Inside UserTable.tsx
-// const deleteMutation = useMutation({
-//   mutationFn: (id: number) => fetch(`https://dummyjson.com/users/${id}`, { method: 'DELETE' }),
-//   onSuccess: () => {
-//     // Refresh the user list or show a success toaster
-//     toaster.create({ title: "User deleted", type: "success" });
-//   }
-// });
 
-// // Update the button:
-// <IconButton onClick={() => deleteMutation.mutate(user.id)}/>
+
+
 export const UserTable = () => {
-  
+    const { data, isLoading, error, refetch, isRefetching } = useGetAllUser();
+    console.log(data)
+  // 2. Handle Loading State
+  if (isLoading) {
+    return (
+      <Center h="60vh">
+        <VStack gap="4">
+          <Spinner size="xl" color="blue.500"  />
+          <Text color="gray.500" fontWeight="medium">Loading users...</Text>
+        </VStack>
+      </Center>
+    );
+  }
+
+  // 3. Handle Error State (Manual fallback even though hook has a toaster)
+  if (error) {
+    return (
+      <Center h="60vh">
+        <VStack gap="4">
+          <Text color="red.500">Could not load users.</Text>
+          <Button onClick={() => refetch()} variant="outline" size="sm">
+            Try Again
+          </Button>
+        </VStack>
+      </Center>
+    );
+  }
   const handleEdit = (id: number) => {
     console.log("Opening edit modal for user:", id);
     // You would typically open a Modal here
@@ -46,16 +65,16 @@ export const UserTable = () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {USERS.map((user) => (
+          {data?.users.map((user) => (
             <Table.Row key={user.id} bg="brand.dashboard" borderTop="2px solid" borderColor="gray.200" _hover={{ bg: "gray.50/50" }} transition="background 0.2s">
               <Table.Cell px="6" py="4">
                 <HStack gap="3">
                   <Avatar.Root size="sm">
-                    <Avatar.Image src={user.img} />
-                    <Avatar.Fallback name={user.name} />
+                    <Avatar.Image src={user.image} />
+                    <Avatar.Fallback name={user.firstName} />
                   </Avatar.Root>
                   <Box>
-                    <Text fontWeight="bold" fontSize="sm">{user.name}</Text>
+                    <Text fontWeight="bold" fontSize="sm">{user.firstName} {user.lastName}</Text>
                     <Text fontSize="xs" color="gray.500">{user.email}</Text>
                   </Box>
                 </HStack>
@@ -67,14 +86,7 @@ export const UserTable = () => {
                 </HStack>
               </Table.Cell>
               <Table.Cell>
-                <Badge 
-                  colorPalette={user.status === "Active" ? "green" : "gray"} 
-                  variant="subtle" 
-                  borderRadius="full"
-                  px="2"
-                >
-                  {user.status}
-                </Badge>
+               
               </Table.Cell>
               
               {/* --- ACTION BUTTONS --- */}
