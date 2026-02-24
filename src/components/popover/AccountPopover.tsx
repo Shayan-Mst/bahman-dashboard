@@ -1,11 +1,12 @@
 "use client";
-import { Box, VStack, Text, Icon, Button, Separator, Input, Field, Flex } from "@chakra-ui/react";
-import { UserCircle, Settings, LogOut } from "lucide-react";
+import { Box, VStack, Text, Icon, Button, Flex } from "@chakra-ui/react";
+import { UserCircle, LogOut } from "lucide-react";
 import { 
   PopoverRoot, PopoverTrigger, PopoverContent, 
   PopoverBody ,PopoverPositioner
 } from "@chakra-ui/react";
 import { useLogout } from "@/src/features/auth/hooks/useLogout";
+import { AccountDialog } from "../dialogue/AccountDialogue";
 
 export const AccountPopover = () => {
     const { mutate: logout, isPending: isLoggingOut } = useLogout();
@@ -35,9 +36,7 @@ export const AccountPopover = () => {
           </Flex>
           
           <VStack gap="0" p="1" align="stretch">
-            <Button outline="none" opacity="0.7" justifyContent="start" size="sm" _hover={{bg:"gray.100", color:"blue.600"}}>
-              <Icon as={Settings} mr="2" /> Manage Account
-            </Button>
+           <AccountDialog/>
             <Button onClick={()=>logout()} loading={isLoggingOut} opacity="0.7"  justifyContent="start" size="sm" _hover={{bg:"red.100", color:"red.600"}}>
               <Icon as={LogOut} mr="2" /> Sign Out
             </Button>
