@@ -1,5 +1,5 @@
 
-import { getAllUserResponse } from "../types/user.types";
+import { AddUserInputs, getAllUserResponse } from "../types/user.types";
 
 export const getAllUser = async (): Promise<getAllUserResponse> => {
   const response = await fetch("https://dummyjson.com/users?limit=5&skip=27&select=firstName,lastName,email,phone,gender,image,role,birthDate", {
@@ -13,5 +13,21 @@ export const getAllUser = async (): Promise<getAllUserResponse> => {
     throw new Error(errorData.message || "Users not found!");
   }
 
+  return response.json();
+};
+
+export const addUser = async (userData: AddUserInputs) => {
+  const response = await fetch("https://dummyjson.com/users/add", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Failed to add user!");
+  }
   return response.json();
 };

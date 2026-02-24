@@ -1,3 +1,4 @@
+import useAddUser from "@/src/features/auth/hooks/useAddUser";
 import { AddUserInputs } from "@/src/features/auth/types/user.types";
 import { 
   Button, 
@@ -37,6 +38,8 @@ export const AddUserDialog = () => {
    
 const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState<string>("");
+  // All the logic is hidden inside this hook
+    const { mutate } = useAddUser();
 const roles = createListCollection({
   items: [
     { label: "User", value: "user" },
@@ -65,8 +68,11 @@ const { register, handleSubmit, reset, setValue, watch } = useForm<AddUserInputs
   };
    const onSubmit = (data: AddUserInputs) => {
     // data.image[0] contains the actual File object
-    console.log("Submitted Data:", data);
-    setFileName("");
+    
+   
+    mutate(data)
+    
+   
     reset();
   };
   return (
