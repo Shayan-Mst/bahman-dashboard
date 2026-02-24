@@ -1,7 +1,8 @@
 "use client";
 import { Box, Heading, Text, Stack, HStack, Button, Input, Icon } from "@chakra-ui/react";
-import { Search, UserPlus, Download } from "lucide-react";
+import { Search } from "lucide-react";
 import { UserTable } from "./../../components/table/UserTable";
+import { AddUserDialog } from "@/src/components/dialogue/AddUserDialog";
 
 export default function UsersPage() {
   return (
@@ -12,12 +13,7 @@ export default function UsersPage() {
           <Heading size="lg" fontWeight="bold" letterSpacing="tight">User Directory</Heading>
           <Text color="gray.500" fontSize="sm">Manage your team members and their account permissions.</Text>
         </Box>
-        <HStack gap="3">
-          
-          <Button bg="blue.600" color="white" size="sm" _hover={{ bg: "blue.700" }}>
-            <Icon as={UserPlus} mr="2" /> Add User
-          </Button>
-        </HStack>
+       <AddUserDialog />
       </Stack>
 
       {/* 2. Search & Filter Bar */}

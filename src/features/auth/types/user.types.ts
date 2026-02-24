@@ -7,6 +7,7 @@ export interface User {
   gender: string;
   image: string;
   role: string;
+  birthDate: string;
 }
 
 export interface getAllUserResponse {
@@ -14,4 +15,15 @@ export interface getAllUserResponse {
   total: number;
   skip: number;
   limit: number;
+}
+
+export interface AddUserInputs {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  image: FileList;
+  role: string;
+  gender: string;
+  birthDate: string;
 }

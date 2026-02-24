@@ -2,7 +2,7 @@
 import { getAllUserResponse } from "../types/user.types";
 
 export const getAllUser = async (): Promise<getAllUserResponse> => {
-  const response = await fetch("https://dummyjson.com/users?limit=5&skip=27&select=firstName,lastName,email,phone,gender,image,role", {
+  const response = await fetch("https://dummyjson.com/users?limit=5&skip=27&select=firstName,lastName,email,phone,gender,image,role,birthDate", {
     method: "GET",
     credentials:'omit'
   });

@@ -1,20 +1,14 @@
-import { Table, Badge, Avatar, IconButton, Text, Box, HStack, Icon, Center, VStack, Spinner, Button } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
+import { Table, Avatar, IconButton, Text, Box, HStack, Icon, Center, VStack, Spinner, Button , TableCell, AvatarRoot, AvatarImage, AvatarFallback, TableRow, TableColumnHeader, TableHeader, TableBody, TableRoot } from "@chakra-ui/react";
 import { Pencil, Trash2, ShieldCheck } from "lucide-react";
-import { toaster } from "../ui/toaster";
 import { useGetAllUser } from "@/src/features/auth/hooks/useGetAllUser";
 
-const USERS = [
-  { id: 1, name: "Arthur Morgan", email: "arthur@van-der-linde.com", role: "Admin", status: "Active", img: "https://i.pravatar.cc/150?u=1" },
-  { id: 2, name: "Sadie Adler", email: "sadie@bounty-hunt.com", role: "Editor", status: "Active", img: "https://i.pravatar.cc/150?u=2" },
-  { id: 3, name: "John Marston", email: "john@beechers-hope.com", role: "User", status: "Inactive", img: "https://i.pravatar.cc/150?u=3" },
-];
+
 
 
 
 export const UserTable = () => {
     const { data, isLoading, error, refetch, isRefetching } = useGetAllUser();
-    console.log(data)
+   
   // 2. Handle Loading State
   if (isLoading) {
     return (
@@ -54,43 +48,62 @@ export const UserTable = () => {
   };
 
   return (
-    <Box bg="white" borderRadius="xl" border="1px solid" borderColor="gray.200" shadow="sm" overflow="hidden">
-      <Table.Root  size="md">
-        <Table.Header bg="gray.50">
-          <Table.Row bg="brand.dashboard">
-            <Table.ColumnHeader  color="brand.dark" px="6" py="4">Name</Table.ColumnHeader>
-            <Table.ColumnHeader  color="brand.dark">Role</Table.ColumnHeader>
-            <Table.ColumnHeader  color="brand.dark">Status</Table.ColumnHeader>
-            <Table.ColumnHeader  color="brand.dark" textAlign="right" px="6">Actions</Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
+    <Box borderRadius="xl" border="1px solid" borderColor="gray.200" shadow="sm" overflow="hidden">
+      <TableRoot  variant="line" tableLayout="fixed"  size="md" interactive>
+        <TableHeader bg="gray.50">
+          <TableRow bg="brand.dashboard"  >
+            <TableColumnHeader  color="brand.dark" px="6" py="4">Name and Email</TableColumnHeader>
+            <TableColumnHeader textAlign="center"  color="brand.dark">Role</TableColumnHeader>
+            <TableColumnHeader  textAlign="center"  color="brand.dark">Gender</TableColumnHeader>
+            <TableColumnHeader  textAlign="center"  color="brand.dark">Birthday</TableColumnHeader>
+            <TableColumnHeader  textAlign="center"  color="brand.dark">Phone</TableColumnHeader>
+            <TableColumnHeader  textAlign="end"  color="brand.dark"  px="6">Modify Users</TableColumnHeader>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {data?.users.map((user) => (
-            <Table.Row key={user.id} bg="brand.dashboard" borderTop="2px solid" borderColor="gray.200" _hover={{ bg: "gray.50/50" }} transition="background 0.2s">
-              <Table.Cell px="6" py="4">
+            <TableRow key={user.id} bg={user.id%2 ? "gray.100" : "brand.dashboard"}  borderTop="2px solid" borderColor="gray.200"  transition="background 0.2s">
+              <TableCell textAlign="start" px="6" py="4">
                 <HStack gap="3">
-                  <Avatar.Root size="sm">
-                    <Avatar.Image src={user.image} />
-                    <Avatar.Fallback name={user.firstName} />
-                  </Avatar.Root>
+                  <AvatarRoot size="sm">
+                    <AvatarImage src={user.image} />
+                    <AvatarFallback name={user.firstName} />
+                  </AvatarRoot>
                   <Box>
                     <Text fontWeight="bold" fontSize="sm">{user.firstName} {user.lastName}</Text>
                     <Text fontSize="xs" color="gray.500">{user.email}</Text>
                   </Box>
                 </HStack>
-              </Table.Cell>
-              <Table.Cell>
-                <HStack gap="1">
+              </TableCell>
+              <TableCell>
+               
+                <VStack gap="1">
                   {user.role === "Admin" && <Icon as={ShieldCheck} color="blue.500" boxSize="3" />}
                   <Text fontSize="sm">{user.role}</Text>
-                </HStack>
-              </Table.Cell>
-              <Table.Cell>
-               
-              </Table.Cell>
+                </VStack>
+                </TableCell>
+              <TableCell>
+                <VStack gap="1">
+                  
+                  <Text fontSize="sm">{user.gender}</Text>
+                </VStack>
+                </TableCell>
+                 <TableCell>
+                <VStack gap="1">
+                  
+                  <Text fontSize="sm">{user.birthDate}</Text>
+                </VStack>
+                </TableCell>
+              <TableCell>
+                 <VStack gap="1">
+                  
+                  <Text fontSize="sm">{user.phone}</Text>
+                </VStack>
+              </TableCell>
+              
               
               {/* --- ACTION BUTTONS --- */}
-              <Table.Cell textAlign="right" px="6">
+              <TableCell textAlign="right" px="6">
                 <HStack gap="2" justify="flex-end">
                   <IconButton 
                     variant="ghost" 
@@ -114,11 +127,11 @@ export const UserTable = () => {
                     <Trash2 size={16} />
                   </IconButton>
                 </HStack>
-              </Table.Cell>
-            </Table.Row>
+              </TableCell>
+            </TableRow>
           ))}
-        </Table.Body>
-      </Table.Root>
+        </TableBody>
+      </TableRoot>
     </Box>
   );
 };
