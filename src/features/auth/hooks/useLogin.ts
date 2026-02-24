@@ -12,8 +12,9 @@ export const useLogin = () => {
     mutationFn: loginUser,
     onSuccess: (data) => {
       // 1. Save Token
+    var inThirty = new Date(new Date().getTime() + 30 * 60 * 1000);
     Cookies.set('acc-tk', data.accessToken, { 
-        expires: 7, // days
+        expires: inThirty, // 30 mins
         secure: true, 
         sameSite: 'strict' 
       });

@@ -1,7 +1,7 @@
 "use client"
 import { Box, Flex, Text, Input, Button, Link, Stack } from "@chakra-ui/react";
 import { ArrowRight,Eye , EyeOff } from "lucide-react"
-import {useForm , Controller , SubmitHandler} from "react-hook-form"
+import {useForm , Controller} from "react-hook-form"
 import { useEffect, useState } from "react";
 import { LoginFormValues } from "@/src/features/auth/types/auth.types";
 import { useLogin } from "../hooks/useLogin";
@@ -45,26 +45,7 @@ const LoginForm = () => {
   const onSubmit = (data: LoginFormValues) => {
     mutate(data);
   };
-  // const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
-    
-  //   try {
-  //     const result = await loginUser(data);
-     
-  //       toaster.create({
-  //         description: "Login was successful",
-  //         type: "success",
-  //         closable: true,
-  //       })
-  //     // You would usually do: router.push('/dashboard') here
-  //   } catch (err: any) {
-      
-  //     toaster.create({
-  //         description: err.message,
-  //         type: "error",
-  //         closable: true,
-  //       })
-  //   }
-  // };
+ 
   return (
     <>
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">

@@ -4,7 +4,7 @@ export const loginUser = async (credentials: LoginFormValues): Promise<AuthRespo
   const response = await fetch("https://dummyjson.com/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(credentials),
+    body: JSON.stringify({...credentials, expiresInMins: 30}),
     credentials:'omit'
   });
 
