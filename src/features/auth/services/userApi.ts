@@ -31,3 +31,17 @@ export const addUser = async (userData: AddUserInputs) => {
   }
   return response.json();
 };
+
+export const deleteUser = async (id:number) => {
+  const response = await fetch(`https://dummyjson.com/users/${id}`, {
+    method: "DELETE",
+  
+  });
+ 
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Failed to delete user!");
+  }
+  return response.json();
+};

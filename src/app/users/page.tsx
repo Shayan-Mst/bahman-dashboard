@@ -1,6 +1,5 @@
 "use client";
-import { Box, Heading, Text, Stack, HStack, Button, Input, Icon } from "@chakra-ui/react";
-import { Search } from "lucide-react";
+import { Box, Heading, Text, Stack } from "@chakra-ui/react";
 import { UserTable } from "./../../components/table/UserTable";
 import { AddUserDialog } from "@/src/components/dialogue/AddUserDialog";
 
@@ -16,25 +15,7 @@ export default function UsersPage() {
        <AddUserDialog />
       </Stack>
 
-      {/* 2. Search & Filter Bar */}
-      <Box bg="white" p="4" borderRadius="xl" border="1px solid" borderColor="gray.200" mb="6" shadow="sm">
-        <HStack gap="4">
-          <Box position="relative" flex="1">
-            <Input 
-              placeholder="Search users..." 
-              pl="10" 
-              bg="gray.50" 
-              border="none" 
-              _focus={{ bg: "white", ring: "1px", ringColor: "blue.500" }}
-            />
-            <Box position="absolute" left="3" top="50%" transform="translateY(-50%)">
-              <Icon as={Search} color="gray.400" />
-            </Box>
-          </Box>
-          
-        </HStack>
-      </Box>
-
+    
       {/* 3. The Data Table */}
       <UserTable />
     </Box>

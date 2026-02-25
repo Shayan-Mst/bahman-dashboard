@@ -1,68 +1,66 @@
-import { Table, Avatar, IconButton, Text, Box, HStack, Icon, Center, VStack, Spinner, Button , TableCell, AvatarRoot, AvatarImage, AvatarFallback, TableRow, TableColumnHeader, TableHeader, TableBody, TableRoot } from "@chakra-ui/react";
-import { Pencil, Trash2, ShieldCheck } from "lucide-react";
+import { IconButton, Text, Box, HStack, Icon, Center, VStack, Spinner, Button, TableCell, AvatarRoot, AvatarImage, AvatarFallback, TableRow, TableColumnHeader, TableHeader, TableBody, TableRoot } from "@chakra-ui/react";
+import { Pencil, ShieldCheck, Trash2 } from "lucide-react";
 import { useGetAllUser } from "@/src/features/auth/hooks/useGetAllUser";
-
-
-
-
+import  DeleteUserDialog  from "@/src/components/dialogue/DeleteUserDialog"; // Ensure this is a named import if you exported as const
+import { useState } from "react";
 
 export const UserTable = () => {
-    const { data, isLoading, error, refetch, isRefetching } = useGetAllUser();
-   
-  // 2. Handle Loading State
+  const { data, isLoading, error, refetch } = useGetAllUser();
+  
+  // --- NEW STATE FOR SINGLE DIALOG ---
+  const [open, setIsOpen] = useState<boolean>(false);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+
   if (isLoading) {
     return (
       <Center h="60vh">
         <VStack gap="4">
-          <Spinner size="xl" color="blue.500"  />
+          <Spinner size="xl" color="blue.500" />
           <Text color="gray.500" fontWeight="medium">Loading users...</Text>
         </VStack>
       </Center>
     );
   }
 
-  // 3. Handle Error State (Manual fallback even though hook has a toaster)
   if (error) {
     return (
       <Center h="60vh">
         <VStack gap="4">
           <Text color="red.500">Could not load users.</Text>
-          <Button onClick={() => refetch()} variant="outline" size="sm">
+          <Button onClick={() => refetch()} border="2px solid" borderColor="brand.dark" size="lg">
             Try Again
           </Button>
         </VStack>
       </Center>
     );
   }
+
   const handleEdit = (id: number) => {
     console.log("Opening edit modal for user:", id);
-    // You would typically open a Modal here
   };
 
-  const handleDelete = (id: number) => {
-    const confirmDelete = confirm("Are you sure you want to delete this user?");
-    if (confirmDelete) {
-      console.log("Deleting user:", id);
-      // Call your API delete mutation here
-    }
+  // --- TRIGGER FOR DELETE ---
+  const openDeleteDialog = (id: number) => {
+    setSelectedUserId(id);
+    setIsOpen(true);
   };
 
   return (
     <Box borderRadius="xl" border="1px solid" borderColor="gray.200" shadow="sm" overflow="hidden">
-      <TableRoot  variant="line" tableLayout="fixed"  size="md" interactive>
+      <TableRoot variant="line" tableLayout="fixed" size="md" interactive>
         <TableHeader bg="gray.50">
-          <TableRow bg="brand.dashboard"  >
-            <TableColumnHeader  color="brand.dark" px="6" py="4">Name and Email</TableColumnHeader>
-            <TableColumnHeader textAlign="center"  color="brand.dark">Role</TableColumnHeader>
-            <TableColumnHeader  textAlign="center"  color="brand.dark">Gender</TableColumnHeader>
-            <TableColumnHeader  textAlign="center"  color="brand.dark">Birthday</TableColumnHeader>
-            <TableColumnHeader  textAlign="center"  color="brand.dark">Phone</TableColumnHeader>
-            <TableColumnHeader  textAlign="end"  color="brand.dark"  px="6">Modify Users</TableColumnHeader>
+          <TableRow bg="brand.dashboard">
+            <TableColumnHeader color="brand.dark" px="6" py="4">Name and Email</TableColumnHeader>
+            <TableColumnHeader textAlign="center" color="brand.dark">Role</TableColumnHeader>
+            <TableColumnHeader textAlign="center" color="brand.dark">Gender</TableColumnHeader>
+            <TableColumnHeader textAlign="center" color="brand.dark">Birthday</TableColumnHeader>
+            <TableColumnHeader textAlign="center" color="brand.dark">Phone</TableColumnHeader>
+            <TableColumnHeader textAlign="end" color="brand.dark" px="6">Modify Users</TableColumnHeader>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data?.users.map((user) => (
-            <TableRow key={user.id} bg={user.id%2 ? "gray.100" : "brand.dashboard"}  borderTop="2px solid" borderColor="gray.200"  transition="background 0.2s">
+            <TableRow key={user.id} bg={user.id % 2 ? "gray.100" : "brand.dashboard"} borderTop="2px solid" borderColor="gray.200" transition="background 0.2s">
               <TableCell textAlign="start" px="6" py="4">
                 <HStack gap="3">
                   <AvatarRoot size="sm">
@@ -75,34 +73,16 @@ export const UserTable = () => {
                   </Box>
                 </HStack>
               </TableCell>
-              <TableCell>
-               
+              <TableCell textAlign="center">
                 <VStack gap="1">
                   {user.role === "Admin" && <Icon as={ShieldCheck} color="blue.500" boxSize="3" />}
                   <Text fontSize="sm">{user.role}</Text>
                 </VStack>
-                </TableCell>
-              <TableCell>
-                <VStack gap="1">
-                  
-                  <Text fontSize="sm">{user.gender}</Text>
-                </VStack>
-                </TableCell>
-                 <TableCell>
-                <VStack gap="1">
-                  
-                  <Text fontSize="sm">{user.birthDate}</Text>
-                </VStack>
-                </TableCell>
-              <TableCell>
-                 <VStack gap="1">
-                  
-                  <Text fontSize="sm">{user.phone}</Text>
-                </VStack>
               </TableCell>
+              <TableCell textAlign="center"><Text fontSize="sm">{user.gender}</Text></TableCell>
+              <TableCell textAlign="center"><Text fontSize="sm">{user.birthDate}</Text></TableCell>
+              <TableCell textAlign="center"><Text fontSize="sm">{user.phone}</Text></TableCell>
               
-              
-              {/* --- ACTION BUTTONS --- */}
               <TableCell textAlign="right" px="6">
                 <HStack gap="2" justify="flex-end">
                   <IconButton 
@@ -116,14 +96,16 @@ export const UserTable = () => {
                     <Pencil size={16} />
                   </IconButton>
 
+                  {/* The actual button that triggers the state change */}
                   <IconButton 
-                    variant="ghost" 
-                    size="sm" 
+                     
+                     size="sm" 
                     aria-label="Delete user"
-                    onClick={() => handleDelete(user.id)}
                     color="gray.600"
                     _hover={{ color: "red.600", bg: "red.50" }}
+                    onClick={() => openDeleteDialog(user.id)}
                   >
+               
                     <Trash2 size={16} />
                   </IconButton>
                 </HStack>
@@ -132,6 +114,18 @@ export const UserTable = () => {
           ))}
         </TableBody>
       </TableRoot>
+
+      {/* --- RENDER DIALOG ONLY ONCE OUTSIDE THE LOOP --- */}
+      {selectedUserId && (
+        <DeleteUserDialog 
+          id={selectedUserId} 
+          open={open} 
+          setIsOpen={(val) => {
+            setIsOpen(val);
+            if (!val) setSelectedUserId(null); // Cleanup on close
+          }}
+        />
+      )}
     </Box>
   );
 };

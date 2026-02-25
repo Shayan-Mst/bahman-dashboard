@@ -8,8 +8,10 @@ import {
 import { themeColorSystem } from "@/src/components/lib/theme"
 export function Provider(props: ColorModeProviderProps) {
   return (
-    <ChakraProvider value={themeColorSystem}>
-      <ColorModeProvider {...props} />
+    <ChakraProvider  value={themeColorSystem}>
+      
+      <ColorModeProvider  {...props} />
+      
     </ChakraProvider>
   )
 }
