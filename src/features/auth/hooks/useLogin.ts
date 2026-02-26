@@ -16,12 +16,12 @@ export const useLogin = () => {
     var inSixty = new Date(new Date().getTime() + 60 * 60 * 1000);
     Cookies.set('acc-tk', data.accessToken, { 
         expires: inThirty, // 30 mins
-        secure: true, 
+        secure: false, 
         sameSite: 'strict' 
       });
         Cookies.set('ref-tk', data.refreshToken, { 
         expires: inSixty, // days
-        secure: true, 
+        secure: false, 
         sameSite: 'strict' 
       });
       // 2. Show Success Toast

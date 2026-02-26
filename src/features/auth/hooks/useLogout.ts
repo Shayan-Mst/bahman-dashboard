@@ -13,15 +13,17 @@ export const useLogout = () => {
       return Promise.resolve();
     },
     onSuccess: () => {
-     Cookies.remove("ref-tk", { path: "/" });
-     Cookies.remove("acc-tk", { path: "/" });   
-      
+     Cookies.remove("ref-tk");
+     Cookies.remove("acc-tk");   
       // Clean up local state
       queryClient.clear();
       
       // Refresh to trigger middleware re-check
-      router.push("/login");
+      setTimeout(()=>{
+ router.push("/login");
       
+      },1000)
+     
     },
   });
 };

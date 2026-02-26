@@ -38,9 +38,6 @@ export const UserTable = () => {
     );
   }
 
-  const handleEdit = (id: number) => {
-    console.log("Opening edit modal for user:", id);
-  };
 
   // --- TRIGGER FOR DELETE ---
   const openDeleteDialog = (id: number) => {
@@ -71,7 +68,7 @@ export const UserTable = () => {
             <TableRow key={user.id} bg={user.id % 2 ? "gray.100" : "brand.dashboard"} borderTop="2px solid" borderColor="gray.200" transition="background 0.2s">
               <TableCell textAlign="start" px="6" py="4">
                 <HStack gap="3">
-                  <AvatarRoot size="sm">
+                  <AvatarRoot zIndex="0" size="sm">
                     <AvatarImage src={user.image} />
                     <AvatarFallback name={user.firstName} />
                   </AvatarRoot>
