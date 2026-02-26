@@ -45,8 +45,8 @@ export const UserTable = () => {
     setIsOpen(true);
   };
   const openEditDialog = (user:User) => {
-    const extractUser = {...user}
-     setSelectedUser(extractUser);
+    // const extractUser = {...user}
+     setSelectedUser(user);
      setIsOpenEdit(true);
   }
 

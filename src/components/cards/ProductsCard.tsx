@@ -1,11 +1,18 @@
 import { useGetAllProduct } from "@/src/features/auth/hooks/useGetAllProduct";
-import { Box, Text, Image, VStack, HStack, SimpleGrid, Center, Spinner, Button } from "@chakra-ui/react";
+import { Product } from "@/src/features/auth/types/product.types";
+import { Box, Text, Image, VStack, HStack, SimpleGrid, Center, Spinner, Button, IconButton } from "@chakra-ui/react";
 // Import icons (Lucide or Chakra Icons)
-import { PercentCircle,Star , DollarSign } from "lucide-react";
+import { PercentCircle,Star , DollarSign, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { EditProductDialog } from "../dialogue/EditProductDialog";
 
 export const ProductsCard = () => {
 
      const {data,isLoading, error, refetch} = useGetAllProduct();
+      const [open, setIsOpen] = useState<boolean>(false);
+       const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
+       const [selectedProduct, setSelectedProduct] = useState<Product>();
+        const [openEdit, setIsOpenEdit] = useState<boolean>(false);
      if (isLoading) {
          return (
            <Center h="60vh">
@@ -29,11 +36,25 @@ export const ProductsCard = () => {
            </Center>
          );
        }
+
+       
+        // --- TRIGGER FOR DELETE ---
+         const openDeleteDialog = (id: number) => {
+           setSelectedProductId(id);
+           setIsOpen(true);
+         };
+         const openEditDialog = (product: Product) => {
+           
+            setSelectedProduct(product);
+            setIsOpenEdit(true);
+         }
   return (
     <SimpleGrid columns={{ base: 1, md: 3, lg: 5 }} gap={6} p={4}>
     {data?.products.map((product) => (
          <Box
       key={product.id}
+      className="product-h"
+      position="relative"
       bg="white"
       borderRadius="xl"
       overflow="hidden"
@@ -42,24 +63,77 @@ export const ProductsCard = () => {
       _hover={{ transform: "translateY(-6px)" }}
       transition="all 0.2s"
     >
+        
       {/* Top Header Section (Greyish Background) */}
       <Box 
         bg="gray.50" 
-        height="120px" 
+        height="120px"
+        width="100%" 
         display="flex" 
         alignItems="center" 
         justifyContent="center"
+        
         p={4}
       >
+       
+       
         <Box 
           p={3} 
           w="150px"
           h="150px"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
+         
+       
         >
           <Image src={product.images[0]} alt="image" objectFit="contain" />
+          {/* THE HOVER LAYER */}
+
+       <Box
+    position="absolute"
+    top="0"
+    left="0"
+    height="120px" // Full height overlay
+    width="100%" // Full width overlay
+    className="overlay"
+   backdropFilter="blur(3px)"
+    zIndex={10}
+   // Semi-transparent dark background
+    display="flex"
+    alignItems="center"
+    justifyContent="center"
+    gap={4}
+    // THE ANIMATION LOGIC
+    transform="translateY(-100%)" // Start hidden below
+    transition="transform 0.4s" // "Bouncy" slide
+    
+  >
+      <HStack gap="2" justify="center">
+                     <IconButton 
+                       bg="blue.500"
+                       color="brand.dashboard"
+                       size="xs" 
+                       aria-label="Edit product"
+                       onClick={() => openEditDialog(product)}
+                       
+                       _hover={{ color: "blue.600", bg: "blue.50" }}
+                     >
+                       <Pencil size={16} />
+                     </IconButton>
+   
+                     {/* The actual button that triggers the state change */}
+                     <IconButton 
+                         bg="red.500"
+                         color="brand.dashboard"
+                        size="xs" 
+                       aria-label="Delete product"
+                       
+                       _hover={{ color: "red.600", bg: "red.50" }}
+                       onClick={() => openDeleteDialog(product.id)}
+                     >
+                  
+                       <Trash2 size="8px" />
+                     </IconButton>
+                   </HStack>
+         </Box>
         </Box>
       </Box>
 
@@ -103,6 +177,14 @@ export const ProductsCard = () => {
     </Box>
     
     ))}
+    {selectedProduct&&(
+      <EditProductDialog
+       product={selectedProduct}
+        openEdit={openEdit}
+        setIsOpenEdit={setIsOpenEdit}
+        
+      />
+    )}
    </SimpleGrid>
   );
 };

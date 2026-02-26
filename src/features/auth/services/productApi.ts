@@ -1,7 +1,7 @@
-import { addProductInput, getAllProductResponse } from "../types/product.types";
+import { addProductInput, editProductInput, getAllProductResponse } from "../types/product.types";
 
 export const getAllProduct = async (): Promise<getAllProductResponse> => {
-  const response = await fetch("https://dummyjson.com/products?limit=5&skip=50&select=title,category,price,discountPercentage,rating,images,stock,rating,tags", {
+  const response = await fetch("https://dummyjson.com/products?limit=10&skip=50&select=title,category,price,discountPercentage,rating,images,stock,rating,tags", {
     method: "GET",
     credentials:'omit'
   });
@@ -15,18 +15,34 @@ export const getAllProduct = async (): Promise<getAllProductResponse> => {
   return response.json();
 };
 
-export const addProduct = async (userData: addProductInput) => {
+export const addProduct = async (productData: addProductInput) => {
   const response = await fetch("https://dummyjson.com/products/add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(userData),
+    body: JSON.stringify(productData),
   });
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || "Failed to add user!");
+    throw new Error(errorData.message || "Failed to add product!");
   }
   return response.json();
 };
+export const editProduct = async (productData: editProductInput) => {
+ 
+  const response = await fetch(`https://dummyjson.com/products/${productData.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(productData),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Failed to update product!");
+  }
+  return response.json();
+}

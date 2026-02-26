@@ -31,3 +31,14 @@ export interface addProductInput{
       tags: string[],
       images : FileList[]
 }
+export interface editProductInput{
+      id: number,
+      title: string,
+      description: string,
+      category: string,
+      price: number,
+      discountPercentage: number,
+      stock: number,
+      tags: string[],
+      images : FileList[]
+}
