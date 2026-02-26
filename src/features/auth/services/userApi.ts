@@ -1,5 +1,5 @@
 
-import { AddUserInputs, getAllUserResponse } from "../types/user.types";
+import { AddUserInputs, EditUserInputs, getAllUserResponse } from "../types/user.types";
 
 export const getAllUser = async (): Promise<getAllUserResponse> => {
   const response = await fetch("https://dummyjson.com/users?limit=5&skip=27&select=firstName,lastName,email,phone,gender,image,role,birthDate", {
@@ -42,6 +42,21 @@ export const deleteUser = async (id:number) => {
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message || "Failed to delete user!");
+  }
+  return response.json();
+};
+export const editUser = async (userData: EditUserInputs) => {
+  const response = await fetch(`https://dummyjson.com/users/${userData.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Failed to edit user!");
   }
   return response.json();
 };

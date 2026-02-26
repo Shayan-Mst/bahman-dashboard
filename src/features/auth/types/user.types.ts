@@ -27,3 +27,15 @@ export interface AddUserInputs {
   gender: string;
   birthDate: string;
 }
+
+export interface EditUserInputs {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  gender: string;
+  image: FileList;
+  role: string;
+  birthDate: string;
+}

@@ -3,6 +3,8 @@ import { Pencil, ShieldCheck, Trash2 } from "lucide-react";
 import { useGetAllUser } from "@/src/features/auth/hooks/useGetAllUser";
 import  DeleteUserDialog  from "@/src/components/dialogue/DeleteUserDialog"; // Ensure this is a named import if you exported as const
 import { useState } from "react";
+import { EditUserDialog } from "../dialogue/EditUserDialog";
+import { EditUserInputs, User } from "@/src/features/auth/types/user.types";
 
 export const UserTable = () => {
   const { data, isLoading, error, refetch } = useGetAllUser();
@@ -10,7 +12,8 @@ export const UserTable = () => {
   // --- NEW STATE FOR SINGLE DIALOG ---
   const [open, setIsOpen] = useState<boolean>(false);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
-
+  const [selectedUser, setSelectedUser] = useState<User>();
+   const [openEdit, setIsOpenEdit] = useState<boolean>(false);
   if (isLoading) {
     return (
       <Center h="60vh">
@@ -44,6 +47,11 @@ export const UserTable = () => {
     setSelectedUserId(id);
     setIsOpen(true);
   };
+  const openEditDialog = (user:User) => {
+    const extractUser = {...user}
+     setSelectedUser(extractUser);
+     setIsOpenEdit(true);
+  }
 
   return (
     <Box borderRadius="xl" border="1px solid" borderColor="gray.200" shadow="sm" overflow="hidden">
@@ -89,7 +97,7 @@ export const UserTable = () => {
                     variant="ghost" 
                     size="sm" 
                     aria-label="Edit user"
-                    onClick={() => handleEdit(user.id)}
+                    onClick={() => openEditDialog(user)}
                     color="gray.600"
                     _hover={{ color: "blue.600", bg: "blue.50" }}
                   >
@@ -125,6 +133,18 @@ export const UserTable = () => {
             if (!val) setSelectedUserId(null); // Cleanup on close
           }}
         />
+         
+      )}
+        {selectedUser && (
+        <EditUserDialog 
+          user={selectedUser} 
+          openEdit={openEdit} 
+          setIsOpenEdit={(val) => {
+            setIsOpenEdit(val);
+            if (!val) setSelectedUser(undefined); // Cleanup on close
+          }}
+        />
+         
       )}
     </Box>
   );
