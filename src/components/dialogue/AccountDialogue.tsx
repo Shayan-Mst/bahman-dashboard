@@ -7,7 +7,6 @@ import {
   DialogTrigger,
   Icon,
   Portal,
-  Dialog,
   DialogBackdrop,
   DialogPositioner,
   CloseButton,
@@ -33,8 +32,7 @@ interface Props {
 }
 
 export const AccountDialog = () => {
-  const [activeTab, setActiveTab] = useState("Profile");
-
+  
   return (
     <DialogRoot  size="lg" placement="center">
         <DialogTrigger asChild>
@@ -67,23 +65,22 @@ export const AccountDialog = () => {
               GENERAL
             </Text>
             <VStack align="stretch" gap="1">
-              {["Profile", "Onboarding"].map((tab) => (
+              
                 <Box
-                  key={tab}
+                
                   px="3"
                   py="2"
                   borderRadius="md"
                   cursor="pointer"
-                  bg={activeTab === tab ? "white" : "transparent"}
-                  color={activeTab === tab ? "blue.600" : "gray.600"}
-                  onClick={() => setActiveTab(tab)}
+                  bg="white"
+                  color="blue.600"
                   transition="all 0.2s"
                 >
-                  <Text fontSize="sm" fontWeight={activeTab === tab ? "medium" : "normal"}>
-                    {tab}
+                  <Text fontSize="sm" fontWeight= "normal">
+                    Profile
                   </Text>
                 </Box>
-              ))}
+            
             </VStack>
           </Box>
 
@@ -97,9 +94,9 @@ export const AccountDialog = () => {
                   <HStack gap="4">
                     <Avatar.Root size="lg" bg="blue.600">
                       <Avatar.Fallback name="Error Fixer" />
-                      <Avatar.Image src="/path-to-your-lock-icon.png" />
+                      <Avatar.Image src={localStorage.getItem("image") || "/default-avatar.png"} />
                     </Avatar.Root>
-                    <Text fontWeight="medium" fontSize="md">Error Fixer</Text>
+                    <Text fontWeight="medium" fontSize="md">{localStorage.getItem("firstName")} {localStorage.getItem("lastName")}</Text>
                   </HStack>
                   <Button outline="solid" size="sm" borderRadius="md" px="4" _hover={{outline:"blue.600", color:"blue.600"}}>
                     Update profile
@@ -108,9 +105,9 @@ export const AccountDialog = () => {
               </Box>
 
               <Box mt="4">
-                <Text fontSize="sm" color="gray.500" mb="2">Email addresses</Text>
+                <Text fontSize="sm" color="gray.500" mb="2">{localStorage.getItem("username")}</Text>
                 <Flex justify="space-between" align="center">
-                  <Text fontSize="md">dispersion00712@gmail.com</Text>
+                  <Text fontSize="md">{localStorage.getItem("email")}</Text>
                   <Badge color="blue.600" bg="blue.100"  borderRadius="full" px="3" py="1" fontSize="xs">
                     PRIMARY
                   </Badge>
@@ -125,19 +122,19 @@ export const AccountDialog = () => {
                 <VStack align="stretch" gap="3">
                   <Flex justify="space-between">
                     <Text color="gray.600">Username:</Text>
-                    <Text fontWeight="bold" color="blue.600">Free</Text>
+                    <Text fontWeight="bold" color="blue.600">{localStorage.getItem("username")}</Text>
                   </Flex>
                   <Flex justify="space-between">
                     <Text color="gray.600">Gender:</Text>
-                    <Text fontWeight="bold" color="blue.600">0</Text>
+                    <Text fontWeight="bold" color="blue.600">{localStorage.getItem("gender")}</Text>
                   </Flex>
                   <Flex justify="space-between">
                     <Text color="gray.600">Phone:</Text>
-                    <Text fontWeight="bold" color="blue.600">3</Text>
+                    <Text fontWeight="bold" color="blue.600">{localStorage.getItem("phone") || "Not provided"}</Text>
                   </Flex>
                   <Flex justify="space-between">
                     <Text color="gray.600">Birthdate:</Text>
-                    <Text fontWeight="bold" color="blue.600">3</Text>
+                    <Text fontWeight="bold" color="blue.600">{localStorage.getItem("birthdate") || "Not provided"}</Text>
                   </Flex>
                 </VStack>
                 <Flex justify="flex-end" mt="6">

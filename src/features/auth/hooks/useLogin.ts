@@ -24,6 +24,13 @@ export const useLogin = () => {
         secure: false, 
         sameSite: 'strict' 
       });
+      const {firstName,lastName,gender,username,image,email} = data
+      localStorage.setItem("firstName", firstName);
+      localStorage.setItem("lastName", lastName);
+      localStorage.setItem("gender", gender);
+      localStorage.setItem("username", username);
+      localStorage.setItem("image", image);
+      localStorage.setItem("email", email);
       // 2. Show Success Toast
       toaster.create({
         title: "Login Successful",

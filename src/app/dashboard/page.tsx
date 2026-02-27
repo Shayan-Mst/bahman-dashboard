@@ -26,7 +26,7 @@ export default function page() {
       {/* Header Section */}
       <Stack direction={{ base: "column", md: "row" }} justify="space-between" align={{ md: "flex-end" }} mb="8">
         <Box>
-          <Heading size="xl" mb="2" fontWeight="bold">Welcome back, Error Fixer! 👋</Heading>
+          <Heading size="xl" mb="2" fontWeight="bold">Welcome back, {localStorage.getItem("firstName")}! 👋</Heading>
           <Text color="gray.500">Here’s an overview of your AI interview progress and job hunts.</Text>
         </Box>
         <Button bg="blue.600" color="white" _hover={{ bg: "blue.700" }} px="6" borderRadius="lg">

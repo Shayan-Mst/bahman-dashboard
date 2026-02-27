@@ -7,6 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { useLogout } from "@/src/features/auth/hooks/useLogout";
 import { AccountDialog } from "../dialogue/AccountDialogue";
+import Image from 'next/image'
 
 export const AccountPopover = () => {
     const { mutate: logout, isPending: isLoggingOut } = useLogout();
@@ -27,11 +28,11 @@ export const AccountPopover = () => {
         <PopoverBody p="0">
           <Flex p="4" bg="gray.100" align="center" gap="3">
              <Box bg="blue.600" p="2" borderRadius="full" color="white">
-                <Icon as={UserCircle} boxSize="4" />
+                <Image src={localStorage.getItem("image") || "/default-avatar.png"} width={25} height={25} alt="User Avatar"  />
              </Box>
              <Box overflow="hidden">
-                <Text fontWeight="bold" fontSize="sm" truncate>Error Fixer</Text>
-                <Text fontSize="xs" color="gray.500" truncate>dispersion00712@gmail.com</Text>
+                <Text fontWeight="bold" fontSize="sm" truncate>{localStorage.getItem("username")} {localStorage.getItem("lastName")}</Text>
+                <Text fontSize="xs" color="gray.500" truncate>{localStorage.getItem("email")}</Text>
              </Box>
           </Flex>
           
