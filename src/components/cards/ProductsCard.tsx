@@ -1,6 +1,6 @@
 import { useGetAllProduct } from "@/src/features/auth/hooks/useGetAllProduct";
 import { Product } from "@/src/features/auth/types/product.types";
-import { Box, Text, Image, VStack, HStack, SimpleGrid, Center, Spinner, Button, IconButton } from "@chakra-ui/react";
+import { Box, Text, Image, VStack, HStack, SimpleGrid, Center, Spinner, Button, IconButton, Span } from "@chakra-ui/react";
 // Import icons (Lucide or Chakra Icons)
 import { PercentCircle,Star , DollarSign, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -37,6 +37,7 @@ export const ProductsCard = () => {
          );
        }
 
+       console.log(data?.products)
        
         // --- TRIGGER FOR DELETE ---
          const openDeleteDialog = (id: number) => {
@@ -139,14 +140,13 @@ export const ProductsCard = () => {
 
       {/* Content Section */}
       <VStack align="start" p={5} gap={2}>
-        <Text fontWeight="bold" fontSize="md" >
-          {product.title}
+        <Text fontWeight="bold" fontSize="sm" >
+          {product.title} <Span color="red.500" fontSize="xs">
+          {product.category}
+        </Span>
         </Text>
-        
-        <Text color="gray.500" fontSize="sm">
-          at {product.category} category
-        </Text>
-
+        <Text  fontSize="xs" lineClamp={2}>{product.description}</Text>
+       
         {/* Stats Row */}
         <HStack gap={4} pt={2} width="full" justifyContent="space-between">
           <HStack gap={1} color="green.500">
@@ -172,6 +172,8 @@ export const ProductsCard = () => {
             </HStack>
           
         ))}
+         
+
        </HStack>
       </VStack>
     </Box>
@@ -181,7 +183,10 @@ export const ProductsCard = () => {
       <EditProductDialog
        product={selectedProduct}
         openEdit={openEdit}
-        setIsOpenEdit={setIsOpenEdit}
+        setIsOpenEdit={(val) => {
+            setIsOpenEdit(val);
+            if (!val) setSelectedProduct(undefined); // Cleanup on close
+          }}
         
       />
     )}

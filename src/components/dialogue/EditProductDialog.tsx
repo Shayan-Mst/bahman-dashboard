@@ -18,19 +18,12 @@ import {
   DialogBackdrop,
   DialogPositioner,
   Portal,
-  createListCollection,
-  SelectRoot,
-  SelectTrigger,
-  SelectValueText,
-  SelectContent,
-  SelectItem,
-  SelectPositioner,
   IconButton,
   Text,
   Box,
-  SelectIndicator
+ 
 } from "@chakra-ui/react";
-import { ImageIcon, Upload, PlusCircle , Check} from "lucide-react";
+import { ImageIcon, Upload, Check} from "lucide-react";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -47,7 +40,7 @@ const fileInputRef = useRef<HTMLInputElement>(null);
     const { mutate } = useEditProduct();
 
 
-const { register, handleSubmit, reset, setValue } = useForm<editProductInput>({
+const { register, handleSubmit, reset, setValue , formState:{dirtyFields} } = useForm<editProductInput>({
     defaultValues: {
         id: product?.id,
         title: product?.title,
@@ -56,7 +49,7 @@ const { register, handleSubmit, reset, setValue } = useForm<editProductInput>({
         category: product?.category,
         discountPercentage: product?.discountPercentage,
         tags: product?.tags,
-        images: {} as FileList[]
+        
     }
 });
 
@@ -72,8 +65,23 @@ const { register, handleSubmit, reset, setValue } = useForm<editProductInput>({
   };
    const onSubmit = (data:editProductInput) => {
     // data.image[0] contains the actual File object
-    mutate(data)
-    reset();
+       
+       const filteredData = Object.keys(dirtyFields).reduce((acc, key) => {
+      // We cast the key as a keyof our inputs to keep TypeScript happy
+      const fieldName = key as keyof editProductInput;
+      
+      // Assign the value from the form data to our "changes" object
+      (acc as any)[fieldName] = data[fieldName];
+      
+      return acc;
+    }, {} as Partial<editProductInput>);
+  
+  
+    const payload = {id:product?.id,...filteredData} as editProductInput
+  
+       mutate(payload)
+       setIsOpenEdit(false)
+       reset();
   };
  
   return (
@@ -109,7 +117,7 @@ const { register, handleSubmit, reset, setValue } = useForm<editProductInput>({
 <HStack gap="4">
             <Field.Root required>
               <Field.Label>Stock</Field.Label>
-              <Input {...register("stock", { required: true })} name="stock" type="number" placeholder="Enter stock quantity" />
+              <Input {...register("stock", { required: true })} name="stock"  placeholder="Enter stock quantity" />
             </Field.Root>
                <Field.Root required>
               <Field.Label>Category</Field.Label>
@@ -119,7 +127,7 @@ const { register, handleSubmit, reset, setValue } = useForm<editProductInput>({
             <HStack gap="4">
                  <Field.Root required>
               <Field.Label>Discount Percentage</Field.Label>
-              <Input {...register("discountPercentage", { required: true })} name="discountPercentage" type="number" placeholder="Enter discount percentage" />
+              <Input {...register("discountPercentage", { required: true })} name="discountPercentage"  placeholder="Enter discount percentage" />
             </Field.Root>
               
               <Field.Root required>

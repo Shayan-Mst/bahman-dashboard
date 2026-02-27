@@ -46,6 +46,7 @@ export const deleteUser = async (id:number) => {
   return response.json();
 };
 export const editUser = async (userData: EditUserInputs) => {
+ 
   const response = await fetch(`https://dummyjson.com/users/${userData.id}`, {
     method: "PATCH",
     headers: {

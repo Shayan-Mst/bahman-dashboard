@@ -1,7 +1,7 @@
 import { addProductInput, editProductInput, getAllProductResponse } from "../types/product.types";
 
 export const getAllProduct = async (): Promise<getAllProductResponse> => {
-  const response = await fetch("https://dummyjson.com/products?limit=10&skip=50&select=title,category,price,discountPercentage,rating,images,stock,rating,tags", {
+  const response = await fetch("https://dummyjson.com/products?limit=10&select=title,description,category,price,discountPercentage,rating,images,stock,rating,tags", {
     method: "GET",
     credentials:'omit'
   });
@@ -32,12 +32,13 @@ export const addProduct = async (productData: addProductInput) => {
 };
 export const editProduct = async (productData: editProductInput) => {
  
-  const response = await fetch(`https://dummyjson.com/products/${productData.id}`, {
+  const {id, ...payload} = productData
+  const response = await fetch(`https://dummyjson.com/products/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(productData),
+    body: JSON.stringify(payload),
   });
 
   if (!response.ok) {
