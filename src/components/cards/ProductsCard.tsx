@@ -5,6 +5,7 @@ import { Box, Text, Image, VStack, HStack, SimpleGrid, Center, Spinner, Button, 
 import { PercentCircle,Star , DollarSign, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { EditProductDialog } from "../dialogue/EditProductDialog";
+import DeleteProductDialog from "../dialogue/DeleteProductDialog";
 
 export const ProductsCard = () => {
 
@@ -179,6 +180,18 @@ export const ProductsCard = () => {
     </Box>
     
     ))}
+
+      {selectedProductId && (
+        <DeleteProductDialog 
+          id={selectedProductId} 
+          open={open} 
+          setIsOpen={(val) => {
+            setIsOpen(val);
+            if (!val) setSelectedProductId(null); // Cleanup on close
+          }}
+        />
+         
+      )}
     {selectedProduct&&(
       <EditProductDialog
        product={selectedProduct}

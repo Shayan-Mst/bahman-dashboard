@@ -1,15 +1,16 @@
+import useDeleteProduct from '@/src/features/auth/hooks/useDeleteProduct';
 import useDeleteUser from '@/src/features/auth/hooks/useDeleteUser';
 import { Button, CloseButton, Dialog, Portal } from '@chakra-ui/react'
 import { Trash2 } from 'lucide-react'
 
 
-interface DeleteUserDialogProps {
+interface DeleteProductDialogProps {
   id: number;
   open: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const DeleteUserDialog = ({id,open,setIsOpen} :DeleteUserDialogProps) => {
-const {mutate} = useDeleteUser()
+const DeleteProductDialog = ({id,open,setIsOpen} :DeleteProductDialogProps) => {
+const {mutate} = useDeleteProduct()
     const handleDelete = (id: number) => {
          
         mutate(id)
@@ -31,8 +32,8 @@ const {mutate} = useDeleteUser()
             </Dialog.Header>
             <Dialog.Body>
               <p>
-                This action cannot be undone. This will permanently delete the user
-                account and remove the data from our systems.
+                This action cannot be undone. This will permanently delete the product
+                and remove the data from our systems.
               </p>
             </Dialog.Body>
             <Dialog.Footer>
@@ -51,4 +52,4 @@ const {mutate} = useDeleteUser()
   )
 }
 
-export default DeleteUserDialog
+export default DeleteProductDialog

@@ -30,6 +30,19 @@ export const addProduct = async (productData: addProductInput) => {
   }
   return response.json();
 };
+export const deleteProduct = async (id:number) => {
+  const response = await fetch(`https://dummyjson.com/products/${id}`, {
+    method: "DELETE",
+  
+  });
+ 
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Failed to delete user!");
+  }
+  return response.json();
+};
 export const editProduct = async (productData: editProductInput) => {
  
   const {id, ...payload} = productData
